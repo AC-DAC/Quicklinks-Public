@@ -32,11 +32,10 @@ Built by [Alex Chuc](https://github.com/AC-DAC) for [Ironbark Marketing](https:/
 
 ## Installation
 
-1. Download the plugin zip from the [latest release](https://github.com/AC-DAC/Quicklinks/releases/latest)
-2. In WordPress admin, go to **Plugins → Add New → Upload Plugin**
-3. Upload the zip and click **Install Now**
-4. Activate the plugin
-5. Go to the **Quicklinks** menu item in the WordPress sidebar to configure
+1. In WordPress admin, go to **Plugins → Add New → Upload Plugin**
+2. Upload the zip and click **Install Now**
+3. Activate the plugin
+4. Go to the **Quicklinks** menu item in the WordPress sidebar to configure
 
 On first save, the plugin automatically creates a page at `/quicklinks/` with the shortcode pre-inserted.
 
