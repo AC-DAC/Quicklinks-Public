@@ -20,26 +20,22 @@ Built by [Alex Chuc](https://github.com/AC-DAC) for [Ironbark Marketing](https:/
 - **Drag and drop** — Rearrange links quickly without touching any code
 - **SEO-friendly** — Links are served from your own domain
 
----
-
 ## Requirements
 
 - WordPress 5.6 or higher
-- PHP 7.4 or higher
-- Tested up to WordPress 6.9.4
-
----
+- PHP 8.3 or higher
+- Pretty permalinks enabled (Settings → Permalinks, anything other than "Plain")
+- Tested up to WordPress 7.0.1
 
 ## Installation
 
-1. In WordPress admin, go to **Plugins → Add New → Upload Plugin**
-2. Upload the zip and click **Install Now**
-3. Activate the plugin
-4. Go to the **Quicklinks** menu item in the WordPress sidebar to configure
+1. Download the plugin zip
+2. In WordPress admin, go to **Plugins → Add New → Upload Plugin**
+3. Upload the zip and click **Install Now**
+4. Activate the plugin
+5. Go to the **Quicklinks** menu item in the WordPress sidebar to configure
 
-On first save, the plugin automatically creates a page at `/quicklinks/` with the shortcode pre-inserted.
-
----
+The plugin serves the Quicklinks page directly at `/quicklinks/` — no WordPress page is created, so there is nothing to accidentally delete. (Sites upgrading from pre-0.4.0 versions had an auto-created page; it is trashed automatically on upgrade.)
 
 ## Usage
 
@@ -47,25 +43,22 @@ On first save, the plugin automatically creates a page at `/quicklinks/` with th
 - Add, remove, and reorder directory buttons using drag and drop
 - Visit `yourdomain.com/quicklinks/` to see the live page
 
-> Do not delete the auto-created Quicklinks page — the plugin requires it to render correctly.
-
----
-
 ## CI/CD Pipeline
 
 Defined in `.github/workflows/quicklinks-release.yml`.
 
-Three-job chain on version tag push (`v*.*.*`):
+Four-job chain on version tag push (`v*.*.*`):
 
 ```
-validate → package → release
+validate → package → release → deploy-update-server
 ```
 
-- **validate** — runs PHPCS against plugin source enforcing WordPress Coding Standards (WPCS 3.x), plus `php -l` syntax check
+- **validate** — runs PHPCS against plugin source enforcing WordPress-Extra ruleset (superset of WordPress Coding Standards), plus `php -l` syntax check
 - **package** — zips plugin source into a versioned artifact
-- **release** — creates a GitHub Release with the zip attached, version extracted from plugin metadata
+- **release** — creates a GitHub Release with the zip attached, version extracted from `README.txt` metadata
+- **deploy-update-server** — regenerates `quicklinks.json` manifest from `README.txt` and uploads zip + manifest to the self-hosted update server over FTPS; credentials are a dedicated FTP account jailed to the updates directory
 
-PHPCS configuration in `phpcs.xml`. Dependencies pinned in `composer.json` (PHPCS 3.x + WPCS 3.x). Codebase fully compliant with WordPress Coding Standards.
+PHPCS configuration in `phpcs.xml`. Dependencies pinned in `composer.json` (PHPCS 3.x + WPCS 3.x).
 
 ---
 
@@ -74,10 +67,11 @@ PHPCS configuration in `phpcs.xml`. Dependencies pinned in `composer.json` (PHPC
 | Layer | Technology |
 |-------|-----------|
 | Language | PHP |
-| Standards | WordPress Coding Standards (WPCS 3.x) |
+| Standards | WordPress-Extra ruleset (PHPCS 3.x + WPCS 3.x) |
 | Linting | PHPCS 3.x |
-| CI/CD | GitHub Actions → GitHub Releases |
+| CI/CD | GitHub Actions → GitHub Releases → self-hosted update server |
 | Packaging | zip artifact |
+| Updates | WordPress native update pipeline (`update_plugins_*` filter, WP 5.8+) |
 
 ---
 
