@@ -19,13 +19,15 @@ Built by [Alex Chuc](https://github.com/AC-DAC) for [Ironbark Marketing](https:/
 - **Customisable** — Add a profile logo/image, background colour, and button colours
 - **Drag and drop** — Rearrange links quickly without touching any code
 - **SEO-friendly** — Links are served from your own domain
+- **Automatic updates** — New versions appear in the normal WordPress Plugins → Updates screen, served from the Ironbark Marketing update server
 
 ## Requirements
 
 - WordPress 5.6 or higher
 - PHP 8.3 or higher
 - Pretty permalinks enabled (Settings → Permalinks, anything other than "Plain")
-- Tested up to WordPress 7.0.1
+- WordPress 5.8 or higher for automatic updates
+- Tested up to WordPress 7.1
 
 ## Installation
 
@@ -47,7 +49,7 @@ The plugin serves the Quicklinks page directly at `/quicklinks/` — no WordPres
 
 Defined in `.github/workflows/quicklinks-release.yml`.
 
-Four-job chain on version tag push (`v*.*.*`):
+Four-job chain on version tag push (`v*`), also runnable manually via `workflow_dispatch`:
 
 ```
 validate → package → release → deploy-update-server
